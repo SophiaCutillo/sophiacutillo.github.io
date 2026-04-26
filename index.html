@@ -755,6 +755,65 @@ footer {
   letter-spacing: 0.08em;
 }
 
+/* ── HAMBURGER MENU ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text);
+  transition: all 0.2s ease;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0; right: 0;
+  background: rgba(247,243,236,0.98);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 99;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-menu a {
+  padding: 14px 24px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+}
+
 /* ── SCROLL OFFSET FOR STICKY NAV ── */
 section, #cover, #profile, #projects, #skills, #testimonials {
   scroll-margin-top: 56px;
@@ -768,9 +827,9 @@ section, #cover, #profile, #projects, #skills, #testimonials {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  nav { padding: 0 24px; }
-  nav .nav-links { gap: 16px; }
-  nav .nav-links a { font-size: 11px; letter-spacing: 0.1em; }
+  nav { padding: 0 20px; }
+  nav .nav-links { display: none; }
+  nav .nav-logo { font-size: 15px; }
 
   #cover { padding: 0 24px; background: var(--bg); }
   .hero-bg { opacity: 0.5; }
@@ -790,10 +849,22 @@ section, #cover, #profile, #projects, #skills, #testimonials {
 
   .case-header { grid-template-columns: auto 1fr; }
   .case-toggle { display: none; }
-  .case-body { grid-template-columns: 1fr; padding: 24px; gap: 20px; }
-  .case-full-width { grid-column: span 1; }
-  .case-num-big { font-size: 32px; }
-  .case-title { font-size: 20px; }
+  .case-card.open .case-body { display: block; padding: 20px; }
+  .case-body { display: block; padding: 20px; }
+  .case-body .star-block { margin-bottom: 16px; }
+  .case-body .star-block-full { margin-bottom: 16px; }
+  .case-body .challenge-block { margin-top: 4px; }
+  .case-num-big { font-size: 28px; }
+  .case-title { font-size: 18px; }
+  .case-header { padding: 20px; gap: 14px; }
+  .star-label { font-size: 9px; letter-spacing: 0.2em; }
+  .star-text { font-size: 13px; line-height: 1.7; }
+  .badge { font-size: 10px; padding: 2px 8px; }
+  .tool-chip { font-size: 10px; padding: 3px 8px; }
+  .result-metric { padding: 8px 12px; }
+  .metric-text { font-size: 12px; }
+  .challenge-block { padding: 14px 16px; }
+  .challenge-text { font-size: 13px; line-height: 1.7; }
 
   .skill-group { padding: 24px; }
   .testimonial-card { padding: 32px; }
@@ -1064,13 +1135,24 @@ section, #cover, #profile, #projects, #skills, #testimonials {
 <nav>
   <div class="nav-logo">Sophia Cutillo</div>
   <ul class="nav-links">
-    <li><a href="#profile">Profile</a></li>
+    <li><a href="#profile">About Me</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#ai">AI Workflow</a></li>
     <li><a href="#testimonials">Testimonials</a></li>
   </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#profile" onclick="closeMenu()">Profile</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="#skills" onclick="closeMenu()">Skills</a>
+  <a href="#ai" onclick="closeMenu()">AI Workflow</a>
+  <a href="#testimonials" onclick="closeMenu()">Testimonials</a>
+</div>
 
 <!-- COVER -->
 <section id="cover">
@@ -1110,7 +1192,7 @@ section, #cover, #profile, #projects, #skills, #testimonials {
   <div class="section-header">
     <span class="section-num">01</span>
     <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-    <h2 class="section-title">Professional Profile</h2>
+    <h2 class="section-title">About Me</h2>
     <div class="section-line"></div>
   </div>
 
@@ -1118,9 +1200,9 @@ section, #cover, #profile, #projects, #skills, #testimonials {
     <div class="profile-block wide">
       <div class="block-label">About</div>
       <p class="bio-text">
-        I'm a results-driven professional with a background spanning <strong>operations, client services, marketing strategy, and entrepreneurship</strong>. Across every role I've taken on, from co-founding a small business to managing a marketing team to coordinating a 50-guest wedding with 10+ vendors, I've been the person keeping the plan together, the stakeholders aligned, and the deliverables on track.<br><br>
-        Leadership has been a through line in everything I do. My Business Administration degree gave me a strong foundation in leadership principles, and through my CAPM coursework and hands-on project experience, I've come to understand that <strong>great project management is really about people</strong>. Motivating a team, navigating challenges together, and guiding a project to a successful finish is what drives me. I'm genuinely energized by complex problems and the process of working through them.<br><br>
-        I'm actively pursuing a <strong>CAPM certification through PMI</strong> to formalize these skills, and I'm seeking an entry-level Project Coordinator role where I can contribute immediately while growing into a full Project Manager position over the next 2 to 5 years.
+        I'm a people-driven, detail-oriented professional who brings structure, clarity, and momentum to every project I take on. I naturally step into leadership roles, keeping teams aligned, organized, and focused on hitting deadlines without losing sight of the bigger picture.<br><br>
+        Through my degree in Business Administration and hands-on project experience, I've developed a strong foundation in leadership and collaboration. I've learned that successful project management isn't just about timelines and deliverables, it's about people. I enjoy motivating teams, navigating challenges, and creating an environment where everyone can contribute to a project's success.<br><br>
+        I'm currently pursuing my <strong>CAPM certification through PMI</strong> to strengthen my technical knowledge, and I'm seeking an entry-level Project Coordinator role where I can contribute immediately while continuing to grow into a Project Manager over the next few years.
       </p>
     </div>
 
@@ -1196,66 +1278,6 @@ section, #cover, #profile, #projects, #skills, #testimonials {
       <div class="case-header" onclick="toggleCase(this)">
         <div class="case-num-big">01</div>
         <div class="case-title-area">
-          <h3 class="case-title">Social Media Strategy &amp; Brand Growth</h3>
-          <div class="case-badges">
-            <span class="badge type">Marketing</span>
-            <span class="badge role">Internship</span>
-            <span class="badge role">Emilie Buck Lewis Studios</span>
-            <span class="badge role">Project Manager</span>
-            <span class="badge dur">3 Months · Team of 4 to 5</span>
-          </div>
-        </div>
-        <div class="case-toggle">+</div>
-      </div>
-      <div class="case-body">
-        <div class="star-block">
-          <div class="star-label">Project Overview</div>
-          <div class="star-text">An independent artist selling work online wanted to grow her audience and increase sales. With limited time and low enthusiasm for social media, the goal was to build a strategy that was effective, realistic, and sustainable for a reluctant content creator.</div>
-        </div>
-        <div class="star-block">
-          <div class="star-label">My Role</div>
-          <div class="star-text">Project Manager leading a team of 4 to 5 interns. Responsible for coordinating weekly check-ins, tracking deadlines, defining project scope, and keeping all work aligned with the client's goals throughout the engagement.</div>
-        </div>
-        <div class="star-block">
-          <div class="star-label">Challenges</div>
-          <div class="star-text">The client was resistant to social media and had minimal time to invest. Additionally, she had not clearly defined who her target market was, which meant the team first had to do discovery work before a strategy could be built. Any approach that required heavy ongoing effort or was misaligned with her audience would fail from the start.</div>
-        </div>
-        <div class="star-block">
-          <div class="star-label">Approach</div>
-          <div class="star-text">Conducted multi-source audience research analyzing social media analytics, website data, location demographics, art style, and buyer profiles. Used an iterative, agile approach — running weekly check-ins to review progress, gather feedback, and adjust direction before producing 12 original content samples aligned with her brand. Designed a bulk content system to minimize the client's ongoing time investment.</div>
-        </div>
-        <div class="star-block star-block-full">
-          <div class="star-label">Tools Used</div>
-          <div class="star-text">
-            <div class="tools-used">
-              <span class="tool-chip">Google Docs</span>
-              <span class="tool-chip">Google Calendar</span>
-              <span class="tool-chip">Social Analytics</span>
-              <span class="tool-chip">Canva</span>
-              <span class="tool-chip">Zoom</span>
-              <span class="tool-chip">Instagram</span>
-            </div>
-          </div>
-        </div>
-        <div class="star-block star-block-full">
-          <div class="star-label">Impact</div>
-          <div class="star-text">
-            <div class="result-metric"><span class="metric-text">✓ Final strategy presented directly to the business owner and received as well-executed</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Strategy designed for long-term sustainability, not just one-time use</span></div>
-          </div>
-        </div>
-        <div class="challenge-block">
-          <div class="challenge-label">Key Challenge Overcome</div>
-          <div class="challenge-text">Designing an effective growth strategy for a client who was resistant to social media required creative problem solving. We focused on simplicity, batching, and authenticity to make the plan one she could realistically maintain long-term.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case 2 -->
-    <div class="case-card">
-      <div class="case-header" onclick="toggleCase(this)">
-        <div class="case-num-big">02</div>
-        <div class="case-title-area">
           <h3 class="case-title">Business Launch &amp; Operations</h3>
           <div class="case-badges">
             <span class="badge type">Entrepreneurship</span>
@@ -1269,19 +1291,19 @@ section, #cover, #profile, #projects, #skills, #testimonials {
       <div class="case-body">
         <div class="star-block">
           <div class="star-label">Project Overview</div>
-          <div class="star-text">Launched a junk removal and dumpster rental business from the ground up within a $15,000 startup budget in a highly competitive local market. The goal was to go from concept to fully operational with paying customers within 3 months.</div>
+          <div class="star-text">Launched a junk removal and dumpster rental business from the ground up within a $15,000 startup budget in a highly competitive local market. The goal was to move from concept to fully operational with paying customers within three months.</div>
         </div>
         <div class="star-block">
           <div class="star-label">My Role</div>
-          <div class="star-text">Co-Founder and Operations Lead responsible for all back-office functions: market research, competitive analysis, financial planning, vendor negotiations, legal coordination, systems design, website creation, and social media setup. Defined all project goals, milestones, and deadlines.</div>
+          <div class="star-text">Co-Founder and Operations Lead overseeing all business operations and project execution. Responsible for market research, financial planning, vendor coordination, legal setup, and building operational systems. Defined project scope, milestones, and timelines to ensure a successful launch.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Challenges</div>
-          <div class="star-text">Entering a saturated market on a tight budget with no existing brand recognition. Paid advertising was not financially viable, so the business needed a creative path to its first customers without overspending.</div>
+          <div class="star-text">Entered a saturated market with no brand recognition and a limited startup budget. Paid advertising was not a viable option, requiring a cost-effective and strategic approach to acquiring the first customers while maintaining financial stability.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Approach</div>
-          <div class="star-text">Took a hybrid approach — following a waterfall structure for the sequential operational setup (legal, banking, systems, website) while staying agile in the go-to-market strategy, iterating on community engagement tactics based on early customer response. Maintained a job tracking system to monitor profitability and lead sources, enabling data-informed decisions from day one.</div>
+          <div class="star-text">Executed a hybrid project management approach, using a waterfall structure for foundational setup (legal, banking, systems, website) while applying agile principles to the go-to-market strategy. Tested and iterated on community-based marketing efforts, adjusting based on early customer engagement and response. Developed a job tracking system to monitor profitability and lead sources, enabling data-driven decision-making from launch.</div>
         </div>
         <div class="star-block star-block-full">
           <div class="star-label">Tools Used</div>
@@ -1300,14 +1322,77 @@ section, #cover, #profile, #projects, #skills, #testimonials {
         <div class="star-block star-block-full">
           <div class="star-label">Impact</div>
           <div class="star-text">
-            <div class="result-metric"><span class="metric-text">✓ Fully operational LLC launched on schedule within $15,000 budget</span></div>
-            <div class="result-metric"><span class="metric-text">✓ First paying customer acquired within Week 1 of opening</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Built customer base without paid advertising spend</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Successfully launched a fully operational LLC on schedule within the $15,000 budget</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Acquired first paying customer within the first week, validating the business model early</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Built an initial customer base without paid advertising, reducing customer acquisition costs</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Established systems for tracking profitability and lead sources, supporting ongoing business growth and decision-making</span></div>
           </div>
         </div>
         <div class="challenge-block">
           <div class="challenge-label">Key Challenge Overcome</div>
-          <div class="challenge-text">Differentiating a new business in a saturated market on a tight budget required creative, research-driven strategy. By prioritizing community presence over paid advertising, we built trust and a customer base without overspending.</div>
+          <div class="challenge-text">Differentiating a new business in a saturated market on a limited budget required a strategic and creative approach. By prioritizing community engagement and trust-building over paid advertising, we successfully generated early traction and built a sustainable customer base without overspending.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case 2 -->
+    <div class="case-card">
+      <div class="case-header" onclick="toggleCase(this)">
+        <div class="case-num-big">02</div>
+        <div class="case-title-area">
+          <h3 class="case-title">Social Media Strategy &amp; Brand Growth</h3>
+          <div class="case-badges">
+            <span class="badge type">Marketing</span>
+            <span class="badge role">Internship</span>
+            <span class="badge role">Emilie Buck Lewis Studios</span>
+            <span class="badge role">Project Manager</span>
+            <span class="badge dur">3 Months · Team of 4 to 5</span>
+          </div>
+        </div>
+        <div class="case-toggle">+</div>
+      </div>
+      <div class="case-body">
+        <div class="star-block">
+          <div class="star-label">Project Overview</div>
+          <div class="star-text">An independent artist selling work online wanted to grow her audience and increase sales. With limited time and low enthusiasm for social media, the goal was to create a strategy that was effective, realistic, and sustainable.</div>
+        </div>
+        <div class="star-block">
+          <div class="star-label">My Role</div>
+          <div class="star-text">Project Manager leading a team of 4 to 5 interns. Responsible for coordinating weekly check-ins, defining project scope, tracking deadlines, and ensuring all deliverables aligned with the client's goals.</div>
+        </div>
+        <div class="star-block">
+          <div class="star-label">Challenges</div>
+          <div class="star-text">The client had limited time and was resistant to social media, making long-term consistency a major concern. Additionally, her target audience was not clearly defined, requiring initial discovery work before a strategy could be developed. Any solution needed to be low-effort, highly targeted, and sustainable.</div>
+        </div>
+        <div class="star-block">
+          <div class="star-label">Approach</div>
+          <div class="star-text">Conducted multi-source audience research, analyzing social media insights, website data, location demographics, art style, and buyer behavior. Led an iterative, agile workflow with weekly check-ins to review progress, gather feedback, and refine direction. Developed 12 original content samples aligned with the client's brand and designed a bulk content system to reduce ongoing effort and improve consistency.</div>
+        </div>
+        <div class="star-block star-block-full">
+          <div class="star-label">Tools Used</div>
+          <div class="star-text">
+            <div class="tools-used">
+              <span class="tool-chip">Google Docs</span>
+              <span class="tool-chip">Google Calendar</span>
+              <span class="tool-chip">Social Analytics</span>
+              <span class="tool-chip">Canva</span>
+              <span class="tool-chip">Zoom</span>
+              <span class="tool-chip">Instagram</span>
+            </div>
+          </div>
+        </div>
+        <div class="star-block star-block-full">
+          <div class="star-label">Impact</div>
+          <div class="star-text">
+            <div class="result-metric"><span class="metric-text">✓ Delivered a complete, actionable social media strategy directly to the business owner, resulting in positive feedback and readiness for implementation</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Created a sustainable content system tailored to the client's time constraints and preferences</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Defined a clear target audience, improving marketing focus and decision-making</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Reduced the barrier to consistent social media use through structured, ready-to-use content</span></div>
+          </div>
+        </div>
+        <div class="challenge-block">
+          <div class="challenge-label">Key Challenge Overcome</div>
+          <div class="challenge-text">Designing a growth strategy for a client resistant to social media required adaptability and creative problem-solving. By prioritizing simplicity, content batching, and authenticity, we developed a plan that aligned with her comfort level and made long-term consistency achievable.</div>
         </div>
       </div>
     </div>
@@ -1330,19 +1415,19 @@ section, #cover, #profile, #projects, #skills, #testimonials {
       <div class="case-body">
         <div class="star-block">
           <div class="star-label">Project Overview</div>
-          <div class="star-text">A fast-paced print production environment managing 3 to 5 significant projects daily across large format, corporate events, small business, and personal printing. Projects range from simple orders to complex multi-stakeholder productions with tight turnarounds.</div>
+          <div class="star-text">A high-volume print production environment managing 3 to 5 concurrent client projects daily across large format, corporate events, small business, and personal printing. Projects range from straightforward orders to complex, multi-stakeholder productions with tight turnarounds and high client expectations.</div>
         </div>
         <div class="star-block">
           <div class="star-label">My Role</div>
-          <div class="star-text">Primary point of contact for clients from quote to delivery. Responsible for walking customers through options, managing expectations, and coordinating across an in-house designer, management, two external vendor relationships, and a sister store location simultaneously.</div>
+          <div class="star-text">Client Services Lead and primary point of contact for all print projects from quote to delivery. Responsible for managing client expectations, coordinating with an in-house designer, management, two external vendor relationships, and a sister store location to ensure seamless project execution.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Challenges</div>
-          <div class="star-text">Balancing multiple concurrent projects with competing deadlines, last-minute client changes, and equipment issues — all while maintaining quality and client satisfaction without missing deliverables.</div>
+          <div class="star-text">Managing multiple concurrent projects with competing deadlines while adapting to last-minute client changes, file issues, and equipment failures in real time. Maintaining consistent quality and client satisfaction across a high volume of daily work requires constant prioritization and clear communication.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Approach</div>
-          <div class="star-text">Working in a fast-paced agile environment where priorities and project scope shift daily, the focus is on clear communication with clients and internal teams from the start of every project. Proactively troubleshoot file issues and printer errors before they cause delays, reprioritizing workload in real time to keep all projects on track.</div>
+          <div class="star-text">Operate within an agile framework, reprioritizing workload in real time as project scopes and deadlines shift throughout the day. Proactively identify and resolve file issues and production errors before they escalate. Establish clear communication with clients and internal teams at every stage to ensure alignment and prevent delays.</div>
         </div>
         <div class="star-block star-block-full">
           <div class="star-label">Tools Used</div>
@@ -1361,14 +1446,14 @@ section, #cover, #profile, #projects, #skills, #testimonials {
         <div class="star-block star-block-full">
           <div class="star-label">Impact</div>
           <div class="star-text">
-            <div class="result-metric"><span class="metric-text">✓ Zero missed deadlines despite equipment failure, resolved through inter-store coordination</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Consistent delivery across 3 to 5 concurrent projects daily</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Repeat client base built on quality, customers regularly return citing print quality that exceeded expectations</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Maintained zero missed deadlines across 3 to 5 concurrent daily projects, including during equipment failures</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Built a loyal repeat client base through consistent quality and service that regularly exceeded customer expectations</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Successfully coordinated cross-location production to fulfill time-sensitive orders without client disruption</span></div>
           </div>
         </div>
         <div class="challenge-block">
           <div class="challenge-label">Key Challenge Overcome</div>
-          <div class="challenge-text">When an in-house printer failed during a time-sensitive client project, rather than missing the deadline, coordinated with a sister store location to complete and deliver on time with zero impact to the client.</div>
+          <div class="challenge-text">When an in-house printer failed mid-production on a time-sensitive client project, immediately coordinated with a sister store location to complete and deliver the order on time, ensuring zero impact to the client experience.</div>
         </div>
       </div>
     </div>
@@ -1380,7 +1465,7 @@ section, #cover, #profile, #projects, #skills, #testimonials {
         <div class="case-title-area">
           <h3 class="case-title">Wedding Planning &amp; Vendor Management</h3>
           <div class="case-badges">
-            <span class="badge type">Personal Project</span>
+            <span class="badge type">Independent Project</span>
             <span class="badge role">Lead Planner</span>
             <span class="badge dur">11 Months · 50 Guests</span>
           </div>
@@ -1390,19 +1475,19 @@ section, #cover, #profile, #projects, #skills, #testimonials {
       <div class="case-body">
         <div class="star-block">
           <div class="star-label">Project Overview</div>
-          <div class="star-text">Planned and executed an intimate 50-guest wedding within a strict $20,000 budget over 11 months. With 10+ vendors to coordinate and a non-negotiable event date, the project required careful scheduling, budget management, and proactive risk planning from day one.</div>
+          <div class="star-text">Planned and executed a 50-guest wedding within a strict $20,000 budget over 11 months. With 10+ vendors to coordinate, a non-negotiable event date, and multiple mid-project pivots, the project demanded rigorous scheduling, budget management, and proactive risk planning from day one.</div>
         </div>
         <div class="star-block">
           <div class="star-label">My Role</div>
-          <div class="star-text">Sole project lead responsible for vendor sourcing and negotiation, contract management, budget tracking, timeline creation, and full day-of coordination across venue, catering, photography, attire, alterations, and bar service.</div>
+          <div class="star-text">Sole project lead responsible for the full lifecycle of the event. Managed vendor sourcing, negotiation, and contract management across venue, catering, photography, attire, alterations, and bar service. Owned budget tracking, timeline creation, and full day-of coordination.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Challenges</div>
-          <div class="star-text">Three months before the wedding, the primary food vendor fell through entirely — requiring a complete catering pivot under significant time pressure, without any flexibility on the date or budget.</div>
+          <div class="star-text">Six months before the event, the decision was made to change venues entirely to secure a location with more desirable features, requiring a full renegotiation of contracts and realignment of all vendor logistics. Three months out, the primary food vendor fell through unexpectedly, requiring an immediate pivot under significant time and budget pressure.</div>
         </div>
         <div class="star-block">
           <div class="star-label">Approach</div>
-          <div class="star-text">Applied a waterfall methodology — mapping out sequential phases from venue and catering to attire and day-of logistics, with each stage building on the last toward the fixed event date. Built and maintained master tracking spreadsheets for budget and all vendor timelines. When the vendor fell through, quickly sourced a replacement and restructured the catering concept from scratch, keeping all other workstreams on track throughout the pivot.</div>
+          <div class="star-text">Applied a waterfall methodology, mapping out sequential project phases from venue and catering through attire and day-of logistics, with each stage building on the last toward the fixed event date. Maintained detailed tracking spreadsheets for budget and all vendor timelines to ensure full visibility across workstreams. Responded to each disruption swiftly, sourcing replacements and restructuring plans without impacting the overall schedule or budget.</div>
         </div>
         <div class="star-block star-block-full">
           <div class="star-label">Tools Used</div>
@@ -1419,14 +1504,14 @@ section, #cover, #profile, #projects, #skills, #testimonials {
         <div class="star-block star-block-full">
           <div class="star-label">Impact</div>
           <div class="star-text">
-            <div class="result-metric"><span class="metric-text">✓ Delivered on time and within $20,000 budget</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Managed 10+ vendor relationships to successful completion</span></div>
-            <div class="result-metric"><span class="metric-text">✓ Navigated major vendor failure 3 months out with zero timeline or budget impact</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Delivered a fully executed event on time and within the $20,000 budget</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Successfully managed 10+ vendor relationships from contract to completion</span></div>
+            <div class="result-metric"><span class="metric-text">✓ Navigated a full venue change and a primary vendor failure with zero impact to the timeline or budget</span></div>
           </div>
         </div>
         <div class="challenge-block">
           <div class="challenge-label">Key Challenge Overcome</div>
-          <div class="challenge-text">Six months before the wedding, the decision was made to change venues entirely in order to secure a location with more desirable add-ons. Managed the full transition, renegotiating contracts and realigning all vendor logistics around the new location without impacting the timeline or exceeding the budget.</div>
+          <div class="challenge-text">Six months before the wedding, pivoted to an entirely new venue to secure a better location, renegotiating all affected contracts and realigning vendor logistics without disrupting the project timeline or exceeding the budget.</div>
         </div>
       </div>
     </div>
@@ -1642,6 +1727,14 @@ section, #cover, #profile, #projects, #skills, #testimonials {
   function toggleCase(header) {
     const card = header.closest('.case-card');
     card.classList.toggle('open');
+  }
+
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
   }
 
   // ── COUNTER ANIMATION ──
